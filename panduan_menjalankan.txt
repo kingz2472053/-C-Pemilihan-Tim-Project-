@@ -1,0 +1,65 @@
+================================================================================
+PANDUAN MENJALANKAN APLIKASI PEMILIHAN TIM PROYEK (BRANCH & BOUND)
+================================================================================
+
+Halo! 
+File ini adalah panduan singkat cara untuk menjalankan aplikasi web (Streamlit)
+dari Tugas Besar Algoritma "Pemilihan Tim Proyek dengan Branch & Bound"
+yang ada di folder "Progress minggu 3".
+
+Ikuti langkah-langkah di bawah ini:
+
+LANGKAH 1: PERSIAPAN AWAL
+--------------------------------------------------------------------------------
+1. Pastikan komputermu sudah ter-install Python (versi 3.8 ke atas).
+2. Buka Terminal / Command Prompt (CMD) di dalam folder utama proyek ini 
+   (yaitu folder yang berisi file requirements.txt).
+3. Jalankan perintah instalasi berikut untuk mendownload semua library yang
+   dibutuhkan (tunggu sampai proses download selesai):
+
+   pip install -r requirements.txt
+
+   (Catatan: Langkah ini cukup dilakukan satu kali saja di awal).
+
+
+LANGKAH 2: CARA MENJALANKAN APLIKASI
+--------------------------------------------------------------------------------
+1. Masih di Terminal/CMD yang sama, pindah ke folder aplikasi minggu ke-3 
+   dengan cara mengetik:
+
+   cd "Progress minggu 3"
+
+2. Setelah masuk ke folder tersebut, nyalakan aplikasinya dengan perintah:
+
+   streamlit run app.py
+
+3. Browser internetmu (Chrome/Edge/Firefox) akan otomatis terbuka dan masuk ke 
+   alamat: http://localhost:8501
+   
+
+LANGKAH 3: CARA PAKAI DI BROWSER
+--------------------------------------------------------------------------------
+Aplikasi ini sudah dibuat sangat user-friendly. Berikut panduan singkatnya:
+
+- DI SEBELAH KIRI (Sidebar):
+  Kamu bisa pilih mau pakai data Preset (Small/Medium/Large), Generate secara 
+  Random, atau Upload file CSV buatan sendiri.
+  Di situ juga kamu bisa atur parameter k (Ukuran Tim) dan B (Budget Maksimal).
+
+- DI TENGAH (Tabel Kandidat):
+  Ini adalah tabel DAFTAR KANDIDAT. Tabel ini BISA DI-EDIT! 
+  Kalau kamu mau ganti nama kandidat, ganti gajinya, atau hapus/tambah orang
+  baru secara manual, langsung saja ketik/edit di tabel tersebut.
+
+- TOMBOL RUN:
+  Klik tombol merah bertuliskan "Jalankan Optimasi" untuk mencari tim terbaik.
+
+- HASIL (Tab):
+  Setelah selesai loading, akan muncul 3 Tab:
+  * Tab 1: Menampilkan siapa saja yang terpilih dan berapa total biayanya.
+  * Tab 2: Visualisasi Pohon Keputusan (Bisa lihat mana jalur yang di-Pruned/dipotong).
+  * Tab 3: Benchmarking kecepatan algoritma kita (B&B) dibanding Brute Force.
+
+Selamat mencoba! Kalau mau ditutup, tinggal "X" (close) browsernya, dan tekan 
+CTRL + C di layar terminal untuk mematikan servernya.
+================================================================================
