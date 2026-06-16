@@ -1,5 +1,9 @@
 Tubes M1/
 Tubes/
-**/__pycache__/
+# Pycache
+__pycache__/
+*.py[cod]
+*$py.class
+
 .idea/
 .vscode/

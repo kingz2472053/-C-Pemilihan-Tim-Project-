@@ -60,6 +60,19 @@ def test_medium():
     assert res.best_cost == bf, f"Expected {bf}, got {res.best_cost}"
     print(f"  [OK] test_medium passed — n=18, optimal={res.best_cost:,}")
 
+def test_large():
+    import random
+    rng = random.Random(42)
+    names = [f"L{i}" for i in range(1, 25)]
+    cands = [Candidate(i + 1, names[i], rng.randint(10, 100) * 1_000_000) for i in range(24)]
+    sorted_c = sorted(c.cost for c in cands)
+    B = sum(sorted_c[:8]) + 35_000_000
+    bb = BranchAndBound(cands, k=8, B=B)
+    res = bb.solve()
+    bf = brute_force(cands, k=8, B=B)
+    assert res.best_cost == bf, f"Expected {bf}, got {res.best_cost}"
+    print(f"  [OK] test_large passed — n=24, optimal={res.best_cost:,} in {res.elapsed_sec*1000:.2f} ms")
+
 def test_alternative_teams():
     cands = make([10, 10, 20, 20, 30, 30, 40, 40, 50, 50, 60, 60])
     bb = BranchAndBound(cands, k=5, B=200)
@@ -80,6 +93,7 @@ def run_all():
         test_exact_budget,
         test_pruning_reduces_nodes,
         test_medium,
+        test_large,
         test_alternative_teams
     ]
     passed = 0
