@@ -63,7 +63,7 @@ def generate_random_candidates(n):
     return candidates
 
 def candidates_to_df(candidates):
-    data = [{"ID": c.id, "Nama": c.name, "Biaya (Rp)": f"{c.cost:,}".replace(',', '.')} for c in candidates]
+    data = [{"ID": str(c.id), "Nama": c.name, "Biaya (Rp)": f"{c.cost:,}".replace(',', '.')} for c in candidates]
     return pd.DataFrame(data)
 
 def df_to_candidates(df):
