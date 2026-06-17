@@ -20,8 +20,10 @@ def build_graphviz_tree(tree_nodes, candidates, max_nodes=100):
         label_parts = []
         team_str = node.label if node.label else "root"
         label_parts.append(f"Team: {team_str}")
-        label_parts.append(f"Cost: Rp {node.total_cost:,}")
-        label_parts.append(f"LB: Rp {node.lower_bound:,}")
+        cost_str = f"Rp {node.total_cost:,}".replace(',', '.')
+        lb_str = f"Rp {node.lower_bound:,}".replace(',', '.')
+        label_parts.append(f"Cost: {cost_str}")
+        label_parts.append(f"LB: {lb_str}")
         
         # Color based on status
         if node.is_solution:
