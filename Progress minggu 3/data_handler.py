@@ -68,11 +68,29 @@ def candidates_to_df(candidates):
 
 def df_to_candidates(df):
     candidates = []
+    
+    # Pencarian nama kolom yang fleksibel (case-insensitive)
+    cols = df.columns.tolist()
+    id_col = next((c for c in cols if 'id' in c.lower() or 'no' in c.lower()), "ID")
+    name_col = next((c for c in cols if 'nama' in c.lower() or 'name' in c.lower()), "Nama")
+    cost_col = next((c for c in cols if 'biaya' in c.lower() or 'cost' in c.lower()), "Biaya (Rp)")
+    
     for _, row in df.iterrows():
-        cost_str = str(row["Biaya (Rp)"]).replace('.', '').replace(',', '').replace('Rp', '').strip()
         try:
+            cost_str = str(row[cost_col]).replace('.', '').replace(',', '').replace('Rp', '').strip()
             cost = int(cost_str)
-        except ValueError:
+        except (ValueError, KeyError):
             cost = 0
-        candidates.append(Candidate(int(row["ID"]), str(row["Nama"]), cost))
+            
+        try:
+            id_val = int(row[id_col])
+        except (ValueError, KeyError):
+            id_val = len(candidates) + 1
+            
+        try:
+            name_val = str(row[name_col])
+        except KeyError:
+            name_val = f"Kandidat {id_val}"
+            
+        candidates.append(Candidate(id_val, name_val, cost))
     return candidates
