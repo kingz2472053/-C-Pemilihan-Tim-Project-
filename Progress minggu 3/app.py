@@ -46,7 +46,7 @@ elif dataset_option == "Upload CSV":
     uploaded_file = st.sidebar.file_uploader("Upload file CSV", type=["csv"])
     if uploaded_file is not None:
         try:
-            df_upload = pd.read_csv(uploaded_file)
+            df_upload = pd.read_csv(uploaded_file, sep=None, engine='python', on_bad_lines='skip')
             candidates = df_to_candidates(df_upload)
             st.sidebar.success(f"Berhasil memuat {len(candidates)} kandidat.")
         except Exception as e:
