@@ -55,14 +55,47 @@ Sebuah node pencarian akan **dipangkas** (tidak dijelajahi lebih dalam ke bawah 
 2. **Melebihi Anggaran**: *Lower Bound* atau biaya tim saat ini sudah melebihi anggaran maksimal $B$ ($\text{LB} > B$).
 3. **Lebih Mahal dari Solusi Terbaik Sementara**: *Lower Bound* lebih besar atau sama dengan biaya tim optimal terbaik yang sudah ditemukan sejauh ini ($\text{LB} \ge \text{best\_cost}$).
 
-### Evolusi Arsitektur Tiga Minggu
-1. **Minggu 1 (CLI Demo)**: Membuat struktur model data dan algoritma inti B&B. Dijalankan via terminal CLI dengan visualisasi ASCII Search Tree sederhana dan pengujian unit test dasar.
-2. **Minggu 2 (CLI Menu)**: Menambahkan menu interaktif, dataset preset (Small, Medium, Large), serta modul kustomisasi input (manual input dan auto-generate kandidat acak).
-3. **Minggu 3 (Web GUI Dashboard)**: Mengemas seluruh sistem ke dalam dashboard web interaktif berbasis **Streamlit**. Menambahkan visualisasi pohon keputusan berwarna secara grafis menggunakan **Graphviz**, tab perbandingan performa (*benchmarking*) dengan Matplotlib, serta integrasi ekspor/impor file CSV.
+---
+
+## 3. Deskripsi Perkembangan Progres (Minggu 1 - Minggu 3)
+
+Proyek ini dikerjakan secara bertahap selama 3 minggu dengan pendekatan pengembangan modular dan evolusioner:
+
+```mermaid
+graph LR
+    M1[Minggu 1: Logika Inti & CLI] --> M2[Minggu 2: Menu & Kustomisasi CLI]
+    M2 --> M3[Minggu 3: Web Dashboard Streamlit]
+```
+
+### A. Minggu 1 (Fase Awal - Pembangunan Logika Inti & CLI Demo)
+Fokus pada minggu pertama adalah merancang struktur data dasar dan memastikan logika algoritma Branch and Bound berjalan dengan benar secara matematis.
+- **Hasil Pekerjaan**:
+  - Membuat model data di [models.py](file:///c:/Semester%204/Strago/Tubes/-C-Pemilihan-Tim-Project--main/-C-Pemilihan-Tim-Project--main/Proggres%20minggu%201/models.py) dan kelas pemecah masalah [BranchAndBound](file:///c:/Semester%204/Strago/Tubes/-C-Pemilihan-Tim-Project--main/-C-Pemilihan-Tim-Project--main/Proggres%20minggu%201/algorithm.py#L6).
+  - Membuat simulasi program terminal CLI di [main_minggu1.py](file:///c:/Semester%204/Strago/Tubes/-C-Pemilihan-Tim-Project--main/-C-Pemilihan-Tim-Project--main/Proggres%20minggu%201/main_minggu1.py) menggunakan dataset statis (tetap) berukuran $n=12$ kandidat, target tim $k=5$, dan anggaran $B=100.000.000$ rupiah.
+  - Mengimplementasikan visualisasi pohon keputusan sederhana berbasis teks (**ASCII Search Tree**) di terminal untuk melacak node mana saja yang dieksplorasi, terpilih, atau dipangkas.
+  - Membuat unit test awal di [test_algorithm.py](file:///c:/Semester%204/Strago/Tubes/-C-Pemilihan-Tim-Project--main/-C-Pemilihan-Tim-Project--main/Proggres%20minggu%201/test_algorithm.py) untuk menguji kebenaran algoritma pada kasus dasar dan kasus tanpa solusi.
+
+### B. Minggu 2 (Fase Menengah - Penambahan Menu Interaktif & Kustomisasi)
+Fokus minggu kedua adalah meningkatkan interaksi pengguna pada terminal CLI sehingga aplikasi dapat memproses data dinamis tanpa perlu mengubah kode sumber.
+- **Hasil Pekerjaan**:
+  - Mengembangkan sistem menu interaktif (opsi 1-4) di [main_minggu2.py](file:///c:/Semester%204/Strago/Tubes/-C-Pemilihan-Tim-Project--main/-C-Pemilihan-Tim-Project--main/Progress%20minggu%202/main_minggu2.py).
+  - Menyediakan 3 pilihan dataset preset bawaan: *Small* (n=12), *Medium* (n=18), dan *Large* (n=24).
+  - Memberikan kebebasan bagi pengguna untuk mengubah parameter $k$ dan $B$ secara langsung saat menjalankan program.
+  - Membuat fitur **Dataset Kustom** yang memungkinkan pengguna menginput data kandidat secara manual satu per satu atau menghasilkan data biaya kandidat secara acak (*Auto-Generate*).
+  - Memperluas pengujian unit test dengan menambahkan pengujian untuk dataset berukuran besar (`test_large`) guna memastikan kinerja algoritma tetap stabil di bawah 1 detik.
+
+### C. Minggu 3 (Fase Akhir - Web GUI Dashboard, Visualisasi Grafis, & Portabilitas)
+Fokus minggu ketiga adalah melakukan transformasi antarmuka dari CLI berbasis teks ke antarmuka grafis berbasis web agar lebih mudah digunakan oleh pengguna awam, serta meningkatkan portabilitas data.
+- **Hasil Pekerjaan**:
+  - Membuat dashboard web interaktif menggunakan framework **Streamlit** di [app.py](file:///c:/Semester%204/Strago/Tubes/-C-Pemilihan-Tim-Project--main/-C-Pemilihan-Tim-Project--main/Progress%20minggu%203/app.py).
+  - Memisahkan logika manipulasi data ke [data_handler.py](file:///c:/Semester%204/Strago/Tubes/-C-Pemilihan-Tim-Project--main/-C-Pemilihan-Tim-Project--main/Progress%20minggu%203/data_handler.py) (import/export CSV, editing dataframe).
+  - Membuat visualisasi grafis pohon keputusan secara dinamis menggunakan **Graphviz** di [visualizer.py](file:///c:/Semester%204/Strago/Tubes/-C-Pemilihan-Tim-Project--main/-C-Pemilihan-Tim-Project--main/Progress%20minggu%203/visualizer.py), lengkap dengan pewarnaan node (Hijau = Solusi Optimal, Biru = Eksplorasi, Merah = Dipangkas).
+  - Menyediakan fitur *benchmarking* performa komputasi antara algoritma Branch & Bound vs Brute Force menggunakan grafik batang **Matplotlib**.
+  - Mengintegrasikan fitur unggah berkas CSV kandidat kustom, edit data secara langsung di tabel halaman web, serta unduh hasil tim optimal ke berkas CSV.
 
 ---
 
-## 3. Deskripsi Hasil Pengujian (Tampilan Input/Output)
+## 4. Deskripsi Hasil Pengujian (Tampilan Input/Output)
 
 ### A. Pengujian Berbasis CLI (Minggu 1 & Minggu 2)
 Pengujian terminal CLI dilakukan menggunakan dataset preset **Small (n=12, k=5, B=100.000.000)**. 
@@ -137,12 +170,12 @@ Pengujian terminal CLI dilakukan menggunakan dataset preset **Small (n=12, k=5, 
 
 #### Analisis Hasil Pengujian CLI:
 * Algoritma berhasil menemukan tim optimal dengan total biaya **Rp 71.000.000** (terdiri dari Citra, Gita, Andi, Lina, Irfan) yang berada di bawah anggaran Rp 100.000.000.
-* Efisiensi pruning mencapai **68.3%** di mana dari total kemungkinan pencarian, hanya 41 node yang dieksplorasi dan 28 node berhasil dipangkas, sehingga komputasi selesai dalam waktu sangat singkat (**0.23 ms**).
+* Efisiensi pruning mencapai **68.3%** di mana dari total kemungkinan kombinasi tim, hanya 41 node yang dieksplorasi dan 28 node berhasil dipangkas, sehingga komputasi selesai dalam waktu sangat singkat (**0.23 ms**).
 
 ---
 
 ### B. Pengujian Berbasis Web GUI (Minggu 3)
-Aplikasi berbasis web dijalankan menggunakan pustaka Streamlit. Antarmuka dibagi menjadi dua area utama: Sidebar Input Konfigurasi (Kiri) dan Dashboard Hasil Visualisasi (Kanan).
+Aplikasi berbasis web dijalankan menggunakan Streamlit. Antarmuka dibagi menjadi dua area utama: Sidebar Input Konfigurasi (Kiri) dan Dashboard Hasil Visualisasi (Kanan).
 
 #### 1. Tampilan Input Konfigurasi (Sidebar)
 * Pengguna dapat memilih sumber data: **Gunakan Preset**, **Generate Acak**, atau **Upload CSV**.
@@ -165,7 +198,7 @@ Hasil pencarian disajikan secara elegan ke dalam tiga tab panel:
 
 ---
 
-## 4. Lampiran Kode Sumber
+## 5. Lampiran Kode Sumber
 
 Berikut adalah bagian kode sumber penting yang membentuk aplikasi ini. Anda dapat mengakses kode lengkap di repositori:
 
