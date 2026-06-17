@@ -127,7 +127,8 @@ if st.session_state.get("run_solver", False):
         
         with st.spinner("Menggambar pohon..."):
             dot = build_graphviz_tree(result.tree_nodes, updated_candidates, max_nodes=100)
-            st.graphviz_chart(dot)
+            
+            st.graphviz_chart(dot.source, use_container_width=True)
 
     with tab3:
         st.markdown("### Perbandingan Performa: Branch & Bound vs Brute Force")
