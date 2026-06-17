@@ -4,13 +4,13 @@ from data_handler import get_presets, generate_random_candidates, candidates_to_
 from visualizer import build_graphviz_tree, plot_benchmark
 from algorithm import BranchAndBound
 
-st.set_page_config(page_title="Pemilihan Tim Proyek (B&B)", page_icon="👥", layout="wide")
+st.set_page_config(page_title="Pemilihan Tim Proyek (B&B)", layout="wide")
 
-st.title("👥 Optimasi Pemilihan Tim Proyek")
+st.title("Optimasi Pemilihan Tim Proyek")
 st.markdown("Aplikasi seleksi kombinasi $k$ kandidat dari pool $n$ kandidat dengan total biaya minimum menggunakan algoritma **Branch and Bound**.")
 
 # --- SIDEBAR CONFIGURATION ---
-st.sidebar.header("⚙️ Konfigurasi Parameter")
+st.sidebar.header("Konfigurasi Parameter")
 
 # 1. Dataset Selection
 dataset_option = st.sidebar.radio(
@@ -31,7 +31,7 @@ if dataset_option == "Gunakan Preset":
     st.sidebar.subheader("Parameter Tim")
     k = st.sidebar.number_input("Ukuran Tim (k)", min_value=1, max_value=len(candidates), value=preset_data["k"])
     B = st.sidebar.number_input("Anggaran Maksimal (B) Rp", min_value=0, value=preset_data["B"], step=1000000)
-    st.sidebar.caption(f"💰 Nilai: **Rp {B:,}**".replace(',', '.'))
+    st.sidebar.caption(f"Nilai: **Rp {B:,}**".replace(',', '.'))
 
 elif dataset_option == "Generate Acak":
     n_rand = st.sidebar.number_input("Jumlah Kandidat (n)", min_value=12, max_value=100, value=12)
@@ -40,7 +40,7 @@ elif dataset_option == "Generate Acak":
     st.sidebar.subheader("Parameter Tim")
     k = st.sidebar.number_input("Ukuran Tim (k)", min_value=1, max_value=n_rand, value=5)
     B = st.sidebar.number_input("Anggaran Maksimal (B) Rp", min_value=0, value=100_000_000, step=1000000)
-    st.sidebar.caption(f"💰 Nilai: **Rp {B:,}**".replace(',', '.'))
+    st.sidebar.caption(f"Nilai: **Rp {B:,}**".replace(',', '.'))
 
 elif dataset_option == "Upload CSV":
     uploaded_file = st.sidebar.file_uploader("Upload file CSV", type=["csv"])
@@ -58,12 +58,12 @@ elif dataset_option == "Upload CSV":
     st.sidebar.subheader("Parameter Tim")
     k = st.sidebar.number_input("Ukuran Tim (k)", min_value=1, max_value=max(1, len(candidates)), value=min(5, len(candidates)))
     B = st.sidebar.number_input("Anggaran Maksimal (B) Rp", min_value=0, value=100_000_000, step=1000000)
-    st.sidebar.caption(f"💰 Nilai: **Rp {B:,}**".replace(',', '.'))
+    st.sidebar.caption(f"Nilai: **Rp {B:,}**".replace(',', '.'))
 
 # --- MAIN CONTENT ---
 
 # Display Dataset
-st.subheader(f"📋 Daftar Kandidat (n={len(candidates)})")
+st.subheader(f"Daftar Kandidat (n={len(candidates)})")
 df_candidates = candidates_to_df(candidates)
 
 # Show data editor so user can manually tweak if they want
@@ -72,11 +72,11 @@ updated_candidates = df_to_candidates(edited_df)
 
 col1, col2 = st.columns([1, 4])
 with col1:
-    if st.button("🚀 Jalankan Optimasi", type="primary"):
+    if st.button("Jalankan Optimasi", type="primary"):
         st.session_state["run_solver"] = True
 with col2:
     csv = edited_df.to_csv(index=False).encode('utf-8')
-    st.download_button("⬇️ Download Template CSV", data=csv, file_name="kandidat.csv", mime="text/csv")
+    st.download_button("Download Template CSV", data=csv, file_name="kandidat.csv", mime="text/csv")
 
 
 if st.session_state.get("run_solver", False):
@@ -87,7 +87,7 @@ if st.session_state.get("run_solver", False):
     st.success("Pencarian Selesai!")
     
     # Tabs for results
-    tab1, tab2, tab3 = st.tabs(["🏆 Tim Terpilih & Statistik", "🌳 Visualisasi Pohon (Graphviz)", "📊 Benchmarking B&B"])
+    tab1, tab2, tab3 = st.tabs(["Tim Terpilih & Statistik", "Visualisasi Pohon (Graphviz)", "Benchmarking B&B"])
     
     with tab1:
         st.markdown("### Hasil Pemilihan Tim")
@@ -102,15 +102,15 @@ if st.session_state.get("run_solver", False):
             
             # Export Result
             csv_res = df_team.to_csv(index=False).encode('utf-8')
-            st.download_button("⬇️ Export Hasil Tim (CSV)", data=csv_res, file_name="tim_optimal.csv", mime="text/csv")
+            st.download_button("Export Hasil Tim (CSV)", data=csv_res, file_name="tim_optimal.csv", mime="text/csv")
             
             alts = bb.get_alternative_teams()
             if len(alts) > 1:
-                st.warning(f"💡 Ditemukan **{len(alts)}** kombinasi tim alternatif dengan biaya optimal yang persis sama!")
+                st.warning(f"Ditemukan **{len(alts)}** kombinasi tim alternatif dengan biaya optimal yang persis sama!")
         else:
-            st.error("❌ Tidak ada tim yang memenuhi syarat anggaran (B terlalu kecil).")
+            st.error("Tidak ada tim yang memenuhi syarat anggaran (B terlalu kecil).")
             
-        st.markdown("### 📈 Statistik Pencarian Branch & Bound")
+        st.markdown("### Statistik Pencarian Branch & Bound")
         col_s1, col_s2, col_s3, col_s4 = st.columns(4)
         col_s1.metric("Node Dieksplorasi", f"{result.nodes_explored:,}")
         col_s2.metric("Node Dipangkas (Pruned)", f"{result.nodes_pruned:,}")
@@ -123,14 +123,14 @@ if st.session_state.get("run_solver", False):
         st.markdown("Warna Hijau = Solusi Optimal | Biru = Dieksplorasi | Merah = Dipangkas (Pruned)")
         
         if len(result.tree_nodes) > 100:
-            st.warning("⚠️ Pohon terlalu besar! Hanya menampilkan 100 node pertama untuk mencegah crash pada browser.")
+            st.warning("Pohon terlalu besar! Hanya menampilkan 100 node pertama untuk mencegah crash pada browser.")
         
         with st.spinner("Menggambar pohon..."):
             dot = build_graphviz_tree(result.tree_nodes, updated_candidates, max_nodes=100)
             st.graphviz_chart(dot)
 
     with tab3:
-        st.markdown("### 📊 Perbandingan Performa: Branch & Bound vs Brute Force")
+        st.markdown("### Perbandingan Performa: Branch & Bound vs Brute Force")
         st.markdown("Mengukur seberapa jauh lebih cepat algoritma B&B dibandingkan mencoba semua kemungkinan kombinasi secara manual.")
         
         if len(updated_candidates) > 24:
